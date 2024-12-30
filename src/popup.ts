@@ -9,8 +9,12 @@ function updatePriceInfo(price: number) {
     }
 }   
 
-chrome.runtime.onMessage.addListener((message: {type: string; priceInfo: PriceInfo}, sender, sendResponse) => {
-    if (message.type === 'price-info') {
-      updatePriceInfo(message.priceInfo.price);
+chrome.runtime.sendMessage({ type: 'price-info-request' }, (response: {type: string; priceInfo?: PriceInfo}) => {
+    if (response.type === 'price-info') {
+        console.log('price-info');
+        if (response.priceInfo) {
+            console.log('price-info=' + JSON.stringify(response.priceInfo));
+            updatePriceInfo(response.priceInfo.price);
+        }
     }
-  });
+});

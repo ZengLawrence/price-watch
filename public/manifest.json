@@ -12,5 +12,10 @@
       "js": ["content.js"],
       "matches": ["https://www.amazon.com/*"]
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["storage"]
 }

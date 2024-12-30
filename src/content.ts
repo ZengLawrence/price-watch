@@ -10,7 +10,7 @@ if (attachAccessoryFeature) {
     console.log('description=' + description);
 
     if (price) {
-        chrome.runtime.sendMessage({ type: 'price-info', priceInfo: { price: parseFloat(price) } });
+        chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo: { price: parseFloat(price) } });
     } else {
         console.error('Price is null or undefined');
     }
