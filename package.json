@@ -1,4 +1,12 @@
 {
+  "name": "price-watch",
+  "version": "0.0.1",
+  "description": "Extension to record prices of products on Amazon",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config webpack/webpack.config.js"
+  },
+  "license": "MIT",
   "devDependencies": {
     "@types/chrome": "^0.0.287",
     "copy-webpack-plugin": "^12.0.2",
