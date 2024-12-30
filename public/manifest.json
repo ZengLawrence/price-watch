@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "manifest_version": 3,
   "action": {
-    "default_popup": "hello.html",
+    "default_popup": "price-info.html",
     "default_icon": "hello_extensions.png"
   },
   "content_scripts": [
@@ -12,5 +12,10 @@
       "js": ["content.js"],
       "matches": ["https://www.amazon.com/*"]
     }
-  ]
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["storage"]
 }

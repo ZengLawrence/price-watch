@@ -8,6 +8,12 @@ if (attachAccessoryFeature) {
     console.log('asin=' + asin);
     const description = document.getElementById('productTitle')?.innerText;
     console.log('description=' + description);
+
+    if (price) {
+        chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo: { price: parseFloat(price) } });
+    } else {
+        console.error('Price is null or undefined');
+    }
 } else {
     console.log('attachAccessoryFeature not found');
 }

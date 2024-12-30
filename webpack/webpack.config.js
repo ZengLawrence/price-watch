@@ -4,7 +4,8 @@ module.exports = {
    mode: "production",
    entry: {
       content: path.resolve(__dirname, "..", "src", "content.ts"),
-      popup: path.resolve(__dirname, "..", "src", "popup.js"),
+      popup: path.resolve(__dirname, "..", "src", "popup.ts"),
+      background: path.resolve(__dirname, "..", "src", "background.ts"),
    },
    output: {
       path: path.join(__dirname, "../dist"),
