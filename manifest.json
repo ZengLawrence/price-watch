@@ -1,7 +1,7 @@
 {
-  "name": "Hello Extensions",
-  "description": "Base Level Extension",
-  "version": "1.0",
+  "name": "Price Watch",
+  "description": "Extension to record prices of products on Amazon",
+  "version": "0.0.1",
   "manifest_version": 3,
   "action": {
     "default_popup": "hello.html",
