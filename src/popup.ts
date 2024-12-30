@@ -1,3 +1,5 @@
+import { PriceInfo } from "./PriceInfo";
+
 function updatePriceInfo(price: number) {
     const productInfo = document.getElementById('price-info');
     if (productInfo) {
@@ -6,10 +8,6 @@ function updatePriceInfo(price: number) {
         productInfo.appendChild(priceEl);
     }
 }   
-
-interface PriceInfo {
-    price: number;
-}
 
 chrome.runtime.onMessage.addListener((message: {type: string; priceInfo: PriceInfo}, sender, sendResponse) => {
     if (message.type === 'price-info') {
