@@ -28,4 +28,5 @@ module.exports = {
          patterns: [{from: ".", to: ".", context: "public"}]
       }),
    ],
+   devtool: "cheap-module-source-map",
 };
