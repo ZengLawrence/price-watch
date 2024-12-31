@@ -11,7 +11,7 @@ module.exports = (env, argv) => {
          background: path.resolve(__dirname, "src", "background.ts"),
       },
       output: {
-         path: path.join(__dirname, "./dist"),
+         path: path.join(__dirname, "dist"),
          filename: "[name].js",
       },
       resolve: {
