@@ -1,7 +1,7 @@
 {
   "scripts": {
     "build": "webpack --config webpack/webpack.config.js",
-    "dev": "webpack --config webpack/webpack.config.js --watch"
+    "dev": "webpack --mode development --config webpack/webpack.config.js --watch"
   },
   "license": "MIT",
   "devDependencies": {
