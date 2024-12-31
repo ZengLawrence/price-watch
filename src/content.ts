@@ -16,26 +16,28 @@ function getPriceByAttachAccessoryFeature() {
     return price;
 }
 
-const twister = document.querySelector('#twisterPlusWWDesktop');
-let price = null;
-if (twister) {
-    const json = twister.querySelector('.twister-plus-buying-options-price-data')?.textContent;
-    console.log(json);
-    if (json) {
-        const priceData = JSON.parse(json);
-        if (priceData) {
-            const g = priceData.desktop_buybox_group_1;
-            console.log(g);
-            price = g[g.length - 1].priceAmount;
-            console.log('price=' + price);
+function getPriceByTwister(): number | null {
+    const twister = document.querySelector('#twisterPlusWWDesktop');
+    let price = null;
+    if (twister) {
+        const json = twister.querySelector('.twister-plus-buying-options-price-data')?.textContent;
+        console.log(json);
+        if (json) {
+            const priceData = JSON.parse(json);
+            if (priceData) {
+                const g = priceData.desktop_buybox_group_1;
+                console.log(g);
+                price = g[g.length - 1].priceAmount;
+                console.log('price=' + price);
+            }
         }
     }
-} else {
-    price = getPriceByAttachAccessoryFeature();
+    return price;
 }
 
+const  price = getPriceByTwister();
 if (price) {
-    chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo: { price: parseFloat(price) } });
+    chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo: { price } });
 } else {
     console.log('Price is null or undefined');
 }
