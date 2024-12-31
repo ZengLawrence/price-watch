@@ -1,14 +1,19 @@
 import { PriceInfo } from "./PriceInfo";
 
+interface TwisterPriceData {
+    desktop_buybox_group_1: {
+        priceAmount: number;
+    }[];
+}
+
 function getPriceByTwister(): PriceInfo | null {
     const twister = document.querySelector('#twisterPlusWWDesktop');
-    let price = null;
-    let asin = null;
 
     if (twister) {
+        let price = 0;
         const json = twister.querySelector('.twister-plus-buying-options-price-data')?.textContent;
         if (json) {
-            const priceData = JSON.parse(json);
+            const priceData: TwisterPriceData = JSON.parse(json);
             if (priceData) {
                 const g = priceData.desktop_buybox_group_1;
                 price = g[g.length - 1].priceAmount;
@@ -16,7 +21,7 @@ function getPriceByTwister(): PriceInfo | null {
             }
         }
 
-        asin = document.getElementById('twister-plus-asin')?.getAttribute('value')!;
+        const asin = document.getElementById('twister-plus-asin')?.getAttribute('value')!;
         console.log('asin=' + asin);
         const description = document.getElementById('productTitle')?.innerText;
         console.log('description=' + description);
