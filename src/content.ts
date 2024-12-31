@@ -21,12 +21,10 @@ function getPriceByTwister(): number | null {
     let price = null;
     if (twister) {
         const json = twister.querySelector('.twister-plus-buying-options-price-data')?.textContent;
-        console.log(json);
         if (json) {
             const priceData = JSON.parse(json);
             if (priceData) {
                 const g = priceData.desktop_buybox_group_1;
-                console.log(g);
                 price = g[g.length - 1].priceAmount;
                 console.log('price=' + price);
             }
