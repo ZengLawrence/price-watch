@@ -16,9 +16,26 @@ function getPriceByAttachAccessoryFeature() {
     return price;
 }
 
-const price = getPriceByAttachAccessoryFeature();
+const twister = document.querySelector('#twisterPlusWWDesktop');
+let price = null;
+if (twister) {
+    const json = twister.querySelector('.twister-plus-buying-options-price-data')?.textContent;
+    console.log(json);
+    if (json) {
+        const priceData = JSON.parse(json);
+        if (priceData) {
+            const g = priceData.desktop_buybox_group_1;
+            console.log(g);
+            price = g[g.length - 1].priceAmount;
+            console.log('price=' + price);
+        }
+    }
+} else {
+    price = getPriceByAttachAccessoryFeature();
+}
+
 if (price) {
     chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo: { price: parseFloat(price) } });
 } else {
-    console.error('Price is null or undefined');
+    console.log('Price is null or undefined');
 }
