@@ -14,6 +14,7 @@ function getPrice(twister: Element): number | null {
             const g = priceData.desktop_buybox_group_1;
             const price = g[g.length - 1].priceAmount;
             console.log('price=' + price);
+            return price;
         }
     }
     return null;
