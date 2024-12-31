@@ -16,7 +16,6 @@ function getPriceByTwister(): PriceInfo | null {
             }
         }
 
-        console.log(twister);
         asin = document.getElementById('twister-plus-asin')?.getAttribute('value')!;
         console.log('asin=' + asin);
         const description = document.getElementById('productTitle')?.innerText;
