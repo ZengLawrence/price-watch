@@ -1,3 +1,5 @@
+import { PriceInfo } from "./PriceInfo";
+
 function getPriceByAttachAccessoryFeature() {
     const attachAccessoryFeature = document.getElementById('attachAccessoryModal_feature_div');
 
@@ -16,9 +18,11 @@ function getPriceByAttachAccessoryFeature() {
     return price;
 }
 
-function getPriceByTwister(): number | null {
+function getPriceByTwister(): PriceInfo | null {
     const twister = document.querySelector('#twisterPlusWWDesktop');
     let price = null;
+    let asin = null;
+
     if (twister) {
         const json = twister.querySelector('.twister-plus-buying-options-price-data')?.textContent;
         if (json) {
@@ -29,13 +33,20 @@ function getPriceByTwister(): number | null {
                 console.log('price=' + price);
             }
         }
+
+        console.log(twister);
+        asin = document.getElementById('twister-plus-asin')?.getAttribute('value')!;
+        console.log('asin=' + asin);
+        const description = document.getElementById('productTitle')?.innerText;
+        console.log('description=' + description);
+        return {price, asin, description};
     }
-    return price;
+    return null;
 }
 
-const  price = getPriceByTwister();
-if (price) {
-    chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo: { price } });
+const  priceInfo = getPriceByTwister();
+if (priceInfo) {
+    chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo });
 } else {
     console.log('Price is null or undefined');
 }

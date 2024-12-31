@@ -8,7 +8,7 @@ chrome.runtime.onMessage.addListener((message: {type: string; priceInfo?: PriceI
     if (message.type === 'price-info-update') {
         console.log('price-info-update');
         if (message.priceInfo) {
-            console.log('price-info-update=' + message.priceInfo);
+            console.log('price-info-update=' + JSON.stringify(message.priceInfo));
             updatePriceInfo(message.priceInfo);
         }
     } else if (message.type === 'price-info-request') {
