@@ -6,7 +6,7 @@ interface TwisterPriceData {
     }[];
 }
 
-function getPriceByTwister(): PriceInfo | null {
+function getPriceInfo(): PriceInfo | null {
     const twister = document.querySelector('#twisterPlusWWDesktop');
 
     if (twister) {
@@ -30,7 +30,7 @@ function getPriceByTwister(): PriceInfo | null {
     return null;
 }
 
-const  priceInfo = getPriceByTwister();
+const  priceInfo = getPriceInfo();
 if (priceInfo) {
     chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo });
 } else {
