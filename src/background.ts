@@ -35,16 +35,29 @@ async function getLatestPriceInfo(sendResponse: (response: { type: string, price
     }
 }
 
-function processPriceInfoUpdate(message: { type: string; priceInfo?: PriceInfoInput; }, sendResponse: (response?: any) => void) {
+async function processPriceInfoUpdate(message: { type: string; priceInfo?: PriceInfoInput; }, sendResponse: (response?: any) => void) {
     if (message.priceInfo) {
         console.log('price-info-update=' + JSON.stringify(message.priceInfo));
         const priceInfo = validate(message.priceInfo);
         if (priceInfo) {
+            const existingPriceInfo = await getPriceInfo(priceInfo.asin);
+            console.log('existingPriceInfo=' + JSON.stringify(existingPriceInfo));
             updatePriceInfo(priceInfo);
-            sendResponse({ buySignal: true, reason: 'Buy signal from Price Watch' });
+            if (existingPriceInfo) {
+                sendResponse(buySignal(priceInfo, existingPriceInfo));
+            }
         } else {
             sendResponse({ buySignal: false, reason: 'No prior price data' });
         }
+    }
+}
+
+function buySignal(priceInfo: PriceInfo, existingPriceInfo: PriceInfo) {
+    const priceDiff = priceInfo.price - existingPriceInfo.price;
+    if (priceDiff < 0) {
+        return { buySignal: true, reason: 'Price lowered' };
+    } else {
+        return { buySignal: false, reason: 'Price no changed or higher' };
     }
 }
 
