@@ -35,6 +35,19 @@ async function getLatestPriceInfo(sendResponse: (response: { type: string, price
     }
 }
 
+function processPriceInfoUpdate(message: { type: string; priceInfo?: PriceInfoInput; }, sendResponse: (response?: any) => void) {
+    if (message.priceInfo) {
+        console.log('price-info-update=' + JSON.stringify(message.priceInfo));
+        const priceInfo = validate(message.priceInfo);
+        if (priceInfo) {
+            updatePriceInfo(priceInfo);
+            sendResponse({ buySignal: true, reason: 'Buy signal from Price Watch' });
+        } else {
+            sendResponse({ buySignal: false, reason: 'No prior price data' });
+        }
+    }
+}
+
 interface PriceInfoInput {
     price?: number;
     asin?: string;
@@ -44,19 +57,11 @@ interface PriceInfoInput {
 chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: PriceInfoInput }, _sender, sendResponse) => {
     if (message.type === 'price-info-update') {
         console.log('price-info-update');
-        if (message.priceInfo) {
-            console.log('price-info-update=' + JSON.stringify(message.priceInfo));
-            const priceInfo = validate(message.priceInfo);
-            if (priceInfo) {
-                updatePriceInfo(priceInfo);
-                sendResponse({buySignal: true, reason: 'Buy signal from Price Watch'});
-            } else {
-                sendResponse({buySignal: false, reason: 'No prior price data'});
-            }
-        }
+        processPriceInfoUpdate(message, sendResponse);
     } else if (message.type === 'price-info-request') {
         getLatestPriceInfo(sendResponse);
         return true;
     }
 });
+
 
