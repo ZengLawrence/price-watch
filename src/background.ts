@@ -44,6 +44,7 @@ chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: Price
             console.log('price-info-update=' + JSON.stringify(message.priceInfo));
             const priceInfo = validate(message.priceInfo);
             if (priceInfo) updatePriceInfo(priceInfo);
+            sendResponse("Buy signal from Price Watch");
         }
     } else if (message.type === 'price-info-request') {
         getLatestPriceInfo(sendResponse);
