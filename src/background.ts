@@ -1,7 +1,10 @@
 import { PriceInfo } from "./PriceInfo";
 
 function updatePriceInfo(priceInfo: PriceInfo) {
-    chrome.storage.local.set({ priceInfo });
+    chrome.storage.local.set({
+        latest: priceInfo.asin,
+        [priceInfo.asin]: priceInfo,
+    });
 }
 
 function validate(priceInfoInput: PriceInfoInput): PriceInfo | null {
@@ -15,6 +18,20 @@ function validate(priceInfoInput: PriceInfoInput): PriceInfo | null {
         return null;
     }
     return { price, asin, description };
+}
+
+function getLatestPriceInfo(sendResponse: (response: { type: string, priceInfo?: PriceInfo }) => void) {
+    chrome.storage.local.get(['latest'], (result) => {
+        const latest = result.latest;
+        if (latest) {
+            chrome.storage.local.get([latest], (result) => {
+                const priceInfo = result[latest];
+                sendResponse({ type: 'price-info', priceInfo });
+            });
+        } else {
+            sendResponse({ type: 'price-info' });
+        }
+    });
 }
 
 interface PriceInfoInput {
@@ -32,9 +49,7 @@ chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: Price
             if (priceInfo) updatePriceInfo(priceInfo);
         }
     } else if (message.type === 'price-info-request') {
-        chrome.storage.local.get('priceInfo', (data) => {
-            sendResponse({ type: 'price-info', priceInfo: data.priceInfo });
-        });
+        getLatestPriceInfo(sendResponse);
         return true;
     }
 });
