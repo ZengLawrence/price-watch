@@ -40,13 +40,13 @@ function getPriceInfo(): PriceInfo | null {
     return null;
 }
 
-function createDomElement(html: string): HTMLElement {
+function createDivElement(html: string): HTMLElement {
     const dom = new DOMParser().parseFromString(html, 'text/html');
-    return dom.body.firstElementChild as HTMLElement;
+    return dom.body.getElementsByTagName('div')[0];
   }
 
 function showPopover() {
-    const popover = createDomElement(
+    const popover = createDivElement(
         `<div id='price-watch-popover' popover>Hello from Amazon Price Watch</div>`
       );
       document.body.appendChild(popover);
