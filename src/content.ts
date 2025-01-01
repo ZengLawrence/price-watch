@@ -40,9 +40,19 @@ function getPriceInfo(): PriceInfo | null {
     return null;
 }
 
+function showPopover() {
+    const popover = document.createElement('div');
+    popover.id = 'price-watch-popover';
+    popover.popover = 'auto';
+    popover.textContent = 'Hello from Amazon Price Watch';
+    document.body.appendChild(popover);
+    popover.showPopover();
+}
+
 const priceInfo = getPriceInfo();
 if (priceInfo) {
     chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo });
 } else {
     console.log('Price is null or undefined');
 }
+showPopover();
