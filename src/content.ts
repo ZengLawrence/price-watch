@@ -55,8 +55,8 @@ function showPopover(buySignal: string) {
 
 const priceInfo = getPriceInfo();
 if (priceInfo) {
-    chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo }, (buySignal) => {
-        showPopover(buySignal);
+    chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo }, ({buySignal, reason}) => {
+        showPopover(reason);
     });
 } else {
     console.log('Price is null or undefined');
