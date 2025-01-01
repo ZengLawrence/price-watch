@@ -20,18 +20,15 @@ function validate(priceInfoInput: PriceInfoInput): PriceInfo | null {
     return { price, asin, description };
 }
 
-function getLatestPriceInfo(sendResponse: (response: { type: string, priceInfo?: PriceInfo }) => void) {
-    chrome.storage.local.get(['latest'], (result) => {
-        const latest = result.latest;
-        if (latest) {
-            chrome.storage.local.get([latest], (result) => {
-                const priceInfo = result[latest];
-                sendResponse({ type: 'price-info', priceInfo });
-            });
-        } else {
-            sendResponse({ type: 'price-info' });
-        }
-    });
+async function getLatestPriceInfo(sendResponse: (response: { type: string, priceInfo?: PriceInfo }) => void) {
+    const { latest } = await chrome.storage.local.get(['latest']);
+    if (latest) {
+        const result = await chrome.storage.local.get([latest]);
+        const priceInfo = result[latest];
+        sendResponse({ type: 'price-info', priceInfo });
+    } else {
+        sendResponse({ type: 'price-info' });
+    }
 }
 
 interface PriceInfoInput {
