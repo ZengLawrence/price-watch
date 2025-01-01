@@ -20,11 +20,15 @@ function validate(priceInfoInput: PriceInfoInput): PriceInfo | null {
     return { price, asin, description };
 }
 
+async function getPriceInfo(asin: string): Promise<PriceInfo | undefined> {
+    const result = await chrome.storage.local.get([asin]);
+    return result[asin];
+}
+
 async function getLatestPriceInfo(sendResponse: (response: { type: string, priceInfo?: PriceInfo }) => void) {
     const { latest } = await chrome.storage.local.get(['latest']);
     if (latest) {
-        const result = await chrome.storage.local.get([latest]);
-        const priceInfo = result[latest];
+        const priceInfo = await getPriceInfo(latest);
         sendResponse({ type: 'price-info', priceInfo });
     } else {
         sendResponse({ type: 'price-info' });
