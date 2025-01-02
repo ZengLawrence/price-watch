@@ -20,14 +20,37 @@ function validate(priceInfoInput: PriceInfoInput): PriceInfo | null {
     return { price, asin, description };
 }
 
+async function getPriceInfo(asin: string): Promise<PriceInfo | undefined> {
+    const result = await chrome.storage.local.get([asin]);
+    return result[asin];
+}
+
 async function getLatestPriceInfo(sendResponse: (response: { type: string, priceInfo?: PriceInfo }) => void) {
     const { latest } = await chrome.storage.local.get(['latest']);
     if (latest) {
-        const result = await chrome.storage.local.get([latest]);
-        const priceInfo = result[latest];
+        const priceInfo = await getPriceInfo(latest);
         sendResponse({ type: 'price-info', priceInfo });
     } else {
         sendResponse({ type: 'price-info' });
+    }
+}
+
+async function processPriceInfoUpdate(message: { type: string; priceInfo?: PriceInfoInput; }) {
+    if (message.priceInfo) {
+        console.log('price-info-update=' + JSON.stringify(message.priceInfo));
+        const priceInfo = validate(message.priceInfo);
+        if (priceInfo) {
+            updatePriceInfo(priceInfo);
+        }
+    }
+}
+
+function buySignal(priceInfo: PriceInfo, existingPriceInfo: PriceInfo) {
+    const priceDiff = priceInfo.price - existingPriceInfo.price;
+    if (priceDiff < 0) {
+        return { buySignal: true, reason: 'Price lowered' };
+    } else {
+        return { buySignal: false, reason: 'Price no changed or higher' };
     }
 }
 
@@ -40,14 +63,11 @@ interface PriceInfoInput {
 chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: PriceInfoInput }, _sender, sendResponse) => {
     if (message.type === 'price-info-update') {
         console.log('price-info-update');
-        if (message.priceInfo) {
-            console.log('price-info-update=' + JSON.stringify(message.priceInfo));
-            const priceInfo = validate(message.priceInfo);
-            if (priceInfo) updatePriceInfo(priceInfo);
-        }
+        processPriceInfoUpdate(message);
     } else if (message.type === 'price-info-request') {
         getLatestPriceInfo(sendResponse);
         return true;
     }
 });
+
 
