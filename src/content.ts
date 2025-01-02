@@ -43,20 +43,30 @@ function getPriceInfo(): PriceInfo | null {
 function createDivElement(html: string): HTMLElement {
     const dom = new DOMParser().parseFromString(html, 'text/html');
     return dom.body.getElementsByTagName('div')[0];
-  }
+}
 
 function showPopover(buySignal: string) {
     const popover = createDivElement(
         `<div id='price-watch-popover' popover>${buySignal}</div>`
-      );
-      document.body.appendChild(popover);
+    );
+    document.body.appendChild(popover);
     popover.showPopover();
 }
 
-const priceInfo = getPriceInfo();
-if (priceInfo) {
-    chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo });
-} else {
-    console.log('Price is null or undefined');
+async function showBuySignal() {
+    const priceInfo = getPriceInfo();
+    if (priceInfo) {
+        chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo }, ({ buySignal, reason }) => {
+            if (buySignal) {
+                showPopover(`Buy signal: ${reason}`);
+            } else {
+                showPopover(`No buy signal: ${reason}`);
+            }
+        });
+    } else {
+        console.log('Price is null or undefined');
+    }
 }
-showPopover('Hello from content.ts');
+
+showBuySignal();
+
