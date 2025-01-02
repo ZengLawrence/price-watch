@@ -1,7 +1,7 @@
 {
   "name": "Price Watch",
   "description": "Extension to record prices of products on Amazon",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "manifest_version": 3,
   "action": {
     "default_popup": "price-info.html",
