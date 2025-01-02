@@ -64,7 +64,7 @@ interface PriceInfoInput {
     description?: string;
 }
 
-chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: PriceInfoInput }, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: PriceInfoInput }, _sender, sendResponse) => {
     if (message.type === 'price-info-update') {
         console.log('price-info-update');
         processPriceInfoUpdate(message, sendResponse);
