@@ -35,7 +35,7 @@ async function getLatestPriceInfo(sendResponse: (response: { type: string, price
     }
 }
 
-async function processPriceInfoUpdate(message: { type: string; priceInfo?: PriceInfoInput; }) {
+async function processPriceInfoUpdate(message: { priceInfo?: PriceInfoInput; }) {
     if (message.priceInfo) {
         console.log('price-info-update=' + JSON.stringify(message.priceInfo));
         const priceInfo = validate(message.priceInfo);
