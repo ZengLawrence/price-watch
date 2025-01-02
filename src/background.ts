@@ -68,10 +68,10 @@ chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: Price
     if (message.type === 'price-info-update') {
         console.log('price-info-update');
         processPriceInfoUpdate(message, sendResponse);
-        return true;
+        return true; // return true to indicate that sendResponse will be called asynchronously
     } else if (message.type === 'price-info-request') {
         getLatestPriceInfo(sendResponse);
-        return true;
+        return true; // return true to indicate that sendResponse will be called asynchronously
     }
 });
 
