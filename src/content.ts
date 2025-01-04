@@ -57,8 +57,8 @@ function showPopover(buySignal: string) {
 async function showBuySignal() {
     const priceInfo = getPriceInfo();
     if (priceInfo) {
-        chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo }, ({ buySignal, reason } : BuySignal) => {
-            if (buySignal) {
+        chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo }, ({ shouldBuy, reason } : BuySignal) => {
+            if (shouldBuy) {
                 showPopover(`Buy signal: ${reason}`);
             } else {
                 showPopover(`No buy signal: ${reason}`);
