@@ -50,8 +50,7 @@ async function processPriceInfoUpdate(message: { priceInfo?: PriceInfoInput; }, 
 }
 
 function buySignal(priceInfo: PriceInfo, existingPriceInfo: PriceInfo) {
-    const priceDiff = priceInfo.price - existingPriceInfo.price;
-    if (priceDiff < 0) {
+    if (priceInfo.price < existingPriceInfo.price) {
         return { buySignal: true, reason: 'Price lowered' };
     } else {
         return { buySignal: false, reason: 'Price no changed or higher' };
