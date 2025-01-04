@@ -1,3 +1,4 @@
+import { BuySignal, buySignal } from "./buySignal";
 import { PriceInfo } from "./PriceInfo";
 
 function updatePriceInfo(priceInfo: PriceInfo) {
@@ -35,7 +36,7 @@ async function getLatestPriceInfo(sendResponse: (response: { type: string, price
     }
 }
 
-async function processPriceInfoUpdate(message: { priceInfo?: PriceInfoInput; }, sendResponse: (response?: any) => void) {
+async function processPriceInfoUpdate(message: { priceInfo?: PriceInfoInput; }, sendResponse: (response: BuySignal) => void) {
     if (message.priceInfo) {
         console.log('price-info-update=' + JSON.stringify(message.priceInfo));
         const priceInfo = validate(message.priceInfo);
@@ -46,14 +47,6 @@ async function processPriceInfoUpdate(message: { priceInfo?: PriceInfoInput; }, 
                 sendResponse(buySignal(priceInfo, existingPriceInfo));
             }
         }
-    }
-}
-
-function buySignal(priceInfo: PriceInfo, existingPriceInfo: PriceInfo) {
-    if (priceInfo.price < existingPriceInfo.price) {
-        return { buySignal: true, reason: 'Price lowered' };
-    } else {
-        return { buySignal: false, reason: 'Price no changed or higher' };
     }
 }
 

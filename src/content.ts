@@ -1,3 +1,4 @@
+import { BuySignal } from "./buySignal";
 import { PriceInfo } from "./PriceInfo";
 
 interface TwisterPriceData {
@@ -45,9 +46,16 @@ function createDivElement(html: string): HTMLElement {
     return dom.body.getElementsByTagName('div')[0];
 }
 
-function showPopover(buySignal: string) {
+function showPopover(reason: string, previousPrice: number) {
     const popover = createDivElement(
-        `<div id='price-watch-popover' popover>${buySignal}</div>`
+        `<div id='price-watch-popover' popover>
+            <div>
+                ${reason}
+            </div>
+            <div>
+                Previous price: ${previousPrice}
+            </div>
+        </div>`
     );
     document.body.appendChild(popover);
     popover.showPopover();
@@ -56,12 +64,13 @@ function showPopover(buySignal: string) {
 async function showBuySignal() {
     const priceInfo = getPriceInfo();
     if (priceInfo) {
-        chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo }, ({ buySignal, reason }) => {
-            if (buySignal) {
-                showPopover(`Buy signal: ${reason}`);
+        chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo }, (buySignal : BuySignal) => {
+            const { shouldBuy, reason, previousPrice } = buySignal;
+            if (shouldBuy) {
+                showPopover(reason, previousPrice);
             } else {
-                showPopover(`No buy signal: ${reason}`);
-            }
+                console.log('No buy recommendation. buySignal=' + JSON.stringify(buySignal));
+            }            
         });
     } else {
         console.log('Price is null or undefined');
