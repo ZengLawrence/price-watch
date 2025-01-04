@@ -1,3 +1,4 @@
+import { buySignal } from "./buySignal";
 import { PriceInfo } from "./PriceInfo";
 
 function updatePriceInfo(priceInfo: PriceInfo) {
@@ -46,14 +47,6 @@ async function processPriceInfoUpdate(message: { priceInfo?: PriceInfoInput; }, 
                 sendResponse(buySignal(priceInfo, existingPriceInfo));
             }
         }
-    }
-}
-
-function buySignal(priceInfo: PriceInfo, existingPriceInfo: PriceInfo) {
-    if (priceInfo.price < existingPriceInfo.price) {
-        return { buySignal: true, reason: 'Price lowered' };
-    } else {
-        return { buySignal: false, reason: 'Price no changed or higher' };
     }
 }
 
