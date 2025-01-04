@@ -1,4 +1,4 @@
-import { buySignal } from "./buySignal";
+import { BuySignal, buySignal } from "./buySignal";
 import { PriceInfo } from "./PriceInfo";
 
 function updatePriceInfo(priceInfo: PriceInfo) {
@@ -36,7 +36,7 @@ async function getLatestPriceInfo(sendResponse: (response: { type: string, price
     }
 }
 
-async function processPriceInfoUpdate(message: { priceInfo?: PriceInfoInput; }, sendResponse: (response?: any) => void) {
+async function processPriceInfoUpdate(message: { priceInfo?: PriceInfoInput; }, sendResponse: (response: BuySignal) => void) {
     if (message.priceInfo) {
         console.log('price-info-update=' + JSON.stringify(message.priceInfo));
         const priceInfo = validate(message.priceInfo);

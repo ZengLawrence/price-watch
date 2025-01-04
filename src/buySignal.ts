@@ -7,3 +7,5 @@ export function buySignal(priceInfo: PriceInfo, existingPriceInfo: PriceInfo) {
         return { buySignal: false, reason: 'Price no changed or higher' };
     }
 }
+
+export type BuySignal = ReturnType<typeof buySignal>;
