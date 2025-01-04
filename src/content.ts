@@ -30,9 +30,9 @@ function head<T>(arr: T[]): T | undefined {
     }
 }
 
-function getBuyOptions(priceData: TwisterPriceData, filter: (buyOption: { buyingOptionType: string }) => void) {
+function getBuyOptions(priceData: TwisterPriceData, filterFn: (buyOption: { buyingOptionType: string }) => void) {
     const g = priceData.desktop_buybox_group_1;
-    return g.filter(p => p.buyingOptionType === 'NEW');
+    return g?.filter(filterFn);
 }
 
 function getPriceInfo(): PriceInfo | null {
