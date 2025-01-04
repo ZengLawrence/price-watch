@@ -11,7 +11,7 @@ export function buySignal(priceInfo: PriceInfo, existingPriceInfo: PriceInfo) {
     } else {
         return { 
             shouldBuy: false, 
-            reason: 'Price no changed or higher',
+            reason: 'Price not changed or higher',
             previousPrice,
         };
     }
