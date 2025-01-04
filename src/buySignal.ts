@@ -1,17 +1,18 @@
 import { PriceInfo } from "./PriceInfo";
 
 export function buySignal(priceInfo: PriceInfo, existingPriceInfo: PriceInfo) {
+    const previousPrice = existingPriceInfo.price;
     if (priceInfo.price < existingPriceInfo.price) {
         return { 
             shouldBuy: true, 
             reason: 'Price lowered',
-            previousPrice: existingPriceInfo.price,
+            previousPrice,
         };
     } else {
         return { 
             shouldBuy: false, 
             reason: 'Price no changed or higher',
-            previousPrice: existingPriceInfo.price,
+            previousPrice,
         };
     }
 }
