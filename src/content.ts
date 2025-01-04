@@ -46,9 +46,9 @@ function createDivElement(html: string): HTMLElement {
     return dom.body.getElementsByTagName('div')[0];
 }
 
-function showPopover(buySignal: string) {
+function showPopover(reason: string) {
     const popover = createDivElement(
-        `<div id='price-watch-popover' popover>${buySignal}</div>`
+        `<div id='price-watch-popover' popover>${reason}</div>`
     );
     document.body.appendChild(popover);
     popover.showPopover();
@@ -60,9 +60,9 @@ async function showBuySignal() {
         chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo }, (buySignal : BuySignal) => {
             const { shouldBuy, reason } = buySignal;
             if (shouldBuy) {
-                showPopover(`Buy signal: ${reason}`);
+                showPopover(reason);
             } else {
-                showPopover(`No buy signal: ${reason}`);
+                showPopover(reason);
             }
         });
     } else {
