@@ -4,6 +4,7 @@ import { PriceInfo } from "./PriceInfo";
 interface TwisterPriceData {
     desktop_buybox_group_1: {
         priceAmount: number;
+        buyingOptionType: string;
     }[];
 }
 
@@ -12,13 +13,26 @@ function getPrice(twister: Element): number | null {
     if (json) {
         const priceData: TwisterPriceData = JSON.parse(json);
         if (priceData) {
-            const g = priceData.desktop_buybox_group_1;
-            const price = g[g.length - 1].priceAmount;
+            const newItemBuyOptions = getBuyOptions(priceData, p => p.buyingOptionType === 'NEW');
+            const price = head(newItemBuyOptions)?.priceAmount || null;
             console.log('price=' + price);
             return price;
         }
     }
     return null;
+}
+
+function head<T>(arr: T[]): T | undefined {
+    if (arr && arr.length > 0) {
+        return arr[0];
+    } else {
+        return undefined;
+    }
+}
+
+function getBuyOptions(priceData: TwisterPriceData, filter: (buyOption: { buyingOptionType: string }) => void) {
+    const g = priceData.desktop_buybox_group_1;
+    return g.filter(p => p.buyingOptionType === 'NEW');
 }
 
 function getPriceInfo(): PriceInfo | null {
@@ -64,13 +78,13 @@ function showPopover(reason: string, previousPrice: number) {
 async function showBuySignal() {
     const priceInfo = getPriceInfo();
     if (priceInfo) {
-        chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo }, (buySignal : BuySignal) => {
+        chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo }, (buySignal: BuySignal) => {
             const { shouldBuy, reason, previousPrice } = buySignal;
             if (shouldBuy) {
                 showPopover(reason, previousPrice);
             } else {
                 console.log('No buy recommendation. buySignal=' + JSON.stringify(buySignal));
-            }            
+            }
         });
     } else {
         console.log('Price is null or undefined');
