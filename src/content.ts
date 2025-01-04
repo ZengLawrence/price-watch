@@ -62,7 +62,10 @@ function createDivElement(html: string): HTMLElement {
 
 function showPopover(reason: string, previousPrice: number) {
     const popover = createDivElement(
-        `<div id='price-watch-popover' popover>
+        `<div id='price-watch-popover' 
+            popover 
+            style='background-color: #198754; color: white;'
+            >
             <div>
                 ${reason}
             </div>
