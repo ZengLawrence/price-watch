@@ -1,6 +1,8 @@
 import { BuySignal, buySignal } from "./buySignal";
 import { PriceInfo } from "./PriceInfo";
 
+const BLANK: string = '';
+
 function updatePriceInfo(priceInfo: PriceInfo) {
     chrome.storage.local.set({
         latest: priceInfo.asin,
@@ -18,7 +20,10 @@ function validate(priceInfoInput: PriceInfoInput): PriceInfo | null {
         console.error('Invalid asin');
         return null;
     }
-    return { price, asin, description };
+    if (description === undefined || description === null || description.trim() === '') {
+        console.warn('Invalid description, setting to blank');
+    }
+    return { price, asin, description: description ?? BLANK };
 }
 
 async function getPriceInfo(asin: string): Promise<PriceInfo | undefined> {
