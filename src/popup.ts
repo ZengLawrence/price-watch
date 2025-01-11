@@ -1,6 +1,6 @@
-import { PriceInfo } from "./PriceInfo";
+import { Product } from "./product";
 
-function updatePriceInfo(priceInfo: PriceInfo) {
+function updatePriceInfo(priceInfo: Product) {
     const productInfo = document.getElementById('price-info');
     if (productInfo) {
         const priceInfoEl = document.createElement('div');
@@ -9,7 +9,7 @@ function updatePriceInfo(priceInfo: PriceInfo) {
     }
 }   
 
-chrome.runtime.sendMessage({ type: 'price-info-request' }, (response: {type: string; priceInfo?: PriceInfo}) => {
+chrome.runtime.sendMessage({ type: 'price-info-request' }, (response: {type: string; priceInfo?: Product}) => {
     if (response.type === 'price-info') {
         console.log('price-info');
         if (response.priceInfo) {

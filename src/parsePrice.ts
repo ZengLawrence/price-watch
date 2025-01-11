@@ -1,7 +1,7 @@
-import { PriceInfo } from "./PriceInfo";
+import { Product } from "./product";
 import { getBasePriceInfo } from './twisterPrice';
 
-export function getPriceInfo(): PriceInfo | null {
+export function getPriceInfo(): Product | null {
     const twisterPriceInfo =  getBasePriceInfo(document);
 
     if (twisterPriceInfo) {
