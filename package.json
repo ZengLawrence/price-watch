@@ -6,10 +6,14 @@
   "license": "MIT",
   "devDependencies": {
     "@types/chrome": "^0.0.287",
+    "@types/lodash": "^4.17.14",
     "copy-webpack-plugin": "^12.0.2",
     "ts-loader": "^9.5.1",
     "typescript": "^5.7.2",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }

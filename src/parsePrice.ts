@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { PriceInfo } from "./PriceInfo";
 
 interface TwisterPriceData {
@@ -12,20 +13,14 @@ function getPrice(twister: Element): number | null {
         const priceData: TwisterPriceData = JSON.parse(json);
         if (priceData) {
             const newItemBuyOptions = getBuyOptions(priceData, p => p.buyingOptionType === 'NEW');
-            const price = head(newItemBuyOptions)?.priceAmount || null;
+            const price = _.head(newItemBuyOptions)?.priceAmount || null;
             console.log('price=' + price);
             return price;
         }
     }
     return null;
 }
-function head<T>(arr: T[]): T | undefined {
-    if (arr && arr.length > 0) {
-        return arr[0];
-    } else {
-        return undefined;
-    }
-}
+
 function getBuyOptions(priceData: TwisterPriceData, filterFn: (buyOption: { buyingOptionType: string; }) => void) {
     const g = priceData.desktop_buybox_group_1;
     return g?.filter(filterFn);
