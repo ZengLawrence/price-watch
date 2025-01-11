@@ -6,6 +6,7 @@ interface TwisterPriceData {
         buyingOptionType: string;
     }[];
 }
+
 export function getPrice(twister: Element): number | null {
     const json = twister.querySelector('.twister-plus-buying-options-price-data')?.textContent;
     if (json) {
@@ -19,6 +20,7 @@ export function getPrice(twister: Element): number | null {
     }
     return null;
 }
+
 function getBuyOptions(priceData: TwisterPriceData, filterFn: (buyOption: { buyingOptionType: string; }) => void) {
     const g = priceData.desktop_buybox_group_1;
     return g?.filter(filterFn);
