@@ -1,11 +1,12 @@
-import { Product } from "./product";
+import { BaseProduct, Product } from "./product";
 import * as twister from './twisterPrice';
+import * as addToCart from './corePriceFeature';
 
 export function getPriceInfo(): Product | null {
-    const basePriceInfo =  twister.getBasePriceInfo(document);
+    const baseProduct =  getBaseProduct(document);
 
-    if (basePriceInfo) {
-        const {price, asin} = basePriceInfo;
+    if (baseProduct) {
+        const {price, asin} = baseProduct;
         console.log('price=' + price);
         console.log('asin=' + asin);
         const description = document.getElementById('productTitle')?.innerText || "not found";
@@ -13,4 +14,13 @@ export function getPriceInfo(): Product | null {
         return { price, asin, description };
     }
     return null;
+}
+
+function getBaseProduct(document: Document): BaseProduct | null {
+    const basePriceInfo =  twister.getBasePriceInfo(document);
+
+    if (basePriceInfo) {
+        return basePriceInfo;
+    }
+    return addToCart.getBasePriceInfo(document);
 }
