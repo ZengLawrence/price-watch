@@ -1,4 +1,4 @@
-import { Product } from "./PriceInfo";
+import { Product } from "./product";
 import { getBasePriceInfo } from './twisterPrice';
 
 export function getPriceInfo(): Product | null {

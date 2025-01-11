@@ -1,4 +1,4 @@
-import { Product } from "./PriceInfo";
+import { Product } from "./product";
 
 function updatePriceInfo(priceInfo: Product) {
     const productInfo = document.getElementById('price-info');

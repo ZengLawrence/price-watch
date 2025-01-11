@@ -1,4 +1,4 @@
-import { Product } from "./PriceInfo";
+import { Product } from "./product";
 
 export function buySignal(priceInfo: Product, existingPriceInfo: Product) {
     const previousPrice = existingPriceInfo.price;

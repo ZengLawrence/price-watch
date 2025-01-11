@@ -1,5 +1,5 @@
 import { BuySignal, buySignal } from "./buySignal";
-import { Product } from "./PriceInfo";
+import { Product } from "./product";
 
 const BLANK: string = '';
 
