@@ -1,9 +1,5 @@
 import _ from 'lodash';
-
-interface BasePriceInfo {
-    price: number;
-    asin: string;
-}
+import { BaseProduct } from './product';
 
 interface TwisterPriceData {
     desktop_buybox_group_1: {
@@ -12,7 +8,7 @@ interface TwisterPriceData {
     }[];
 }
 
-export function getBasePriceInfo(document: Document): BasePriceInfo | null {
+export function getBaseProduct(document: Document): BaseProduct | null {
     const twister = document.querySelector('#twisterPlusWWDesktop');
 
     if (twister) {
