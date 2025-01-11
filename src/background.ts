@@ -1,16 +1,16 @@
 import { BuySignal, buySignal } from "./buySignal";
-import { PriceInfo } from "./PriceInfo";
+import { ProductPrice } from "./PriceInfo";
 
 const BLANK: string = '';
 
-function updatePriceInfo(priceInfo: PriceInfo) {
+function updatePriceInfo(priceInfo: ProductPrice) {
     chrome.storage.local.set({
         latest: priceInfo.asin,
         [priceInfo.asin]: priceInfo,
     });
 }
 
-function validate(priceInfoInput: PriceInfoInput): PriceInfo | null {
+function validate(priceInfoInput: PriceInfoInput): ProductPrice | null {
     const { price, asin, description } = priceInfoInput;
     if (price === undefined || price === null || price <= 0) {
         console.error('Invalid price');
@@ -26,12 +26,12 @@ function validate(priceInfoInput: PriceInfoInput): PriceInfo | null {
     return { price, asin, description: description ?? BLANK };
 }
 
-async function getPriceInfo(asin: string): Promise<PriceInfo | undefined> {
+async function getPriceInfo(asin: string): Promise<ProductPrice | undefined> {
     const result = await chrome.storage.local.get([asin]);
     return result[asin];
 }
 
-async function getLatestPriceInfo(sendResponse: (response: { type: string, priceInfo?: PriceInfo }) => void) {
+async function getLatestPriceInfo(sendResponse: (response: { type: string, priceInfo?: ProductPrice }) => void) {
     const { latest } = await chrome.storage.local.get(['latest']);
     if (latest) {
         const priceInfo = await getPriceInfo(latest);
