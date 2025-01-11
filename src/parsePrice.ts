@@ -1,8 +1,8 @@
 import { Product } from "./product";
-import { getBasePriceInfo } from './twisterPrice';
+import * as twister from './twisterPrice';
 
 export function getPriceInfo(): Product | null {
-    const basePriceInfo =  getBasePriceInfo(document);
+    const basePriceInfo =  twister.getBasePriceInfo(document);
 
     if (basePriceInfo) {
         const {price, asin} = basePriceInfo;
