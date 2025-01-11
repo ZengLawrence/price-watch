@@ -1,18 +1,12 @@
 import { PriceInfo } from "./PriceInfo";
-import { getPrice } from './twisterPrice';
+import { getBasePriceInfo } from './twisterPrice';
 
 export function getPriceInfo(): PriceInfo | null {
-    const twister = document.querySelector('#twisterPlusWWDesktop');
+    const twisterPriceInfo =  getBasePriceInfo(document);
 
-    if (twister) {
-        const price = getPrice(twister);
-
-        if (!price) {
-            console.log('Price is null or undefined');
-            return null;
-        }
-
-        const asin = (document.getElementById('twister-plus-asin')?.getAttribute('value'))!;
+    if (twisterPriceInfo) {
+        const {price, asin} = twisterPriceInfo;
+        console.log('price=' + price);
         console.log('asin=' + asin);
         const description = document.getElementById('productTitle')?.innerText;
         console.log('description=' + description);
