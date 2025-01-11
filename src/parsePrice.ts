@@ -17,10 +17,10 @@ export function getPriceInfo(): Product | null {
 }
 
 function getBaseProduct(document: Document): BaseProduct | null {
-    const basePriceInfo =  twister.getBasePriceInfo(document);
+    const basePriceInfo =  twister.getBaseProduct(document);
 
     if (basePriceInfo) {
         return basePriceInfo;
     }
-    return addToCart.getBasePriceInfo(document);
+    return addToCart.getBaseProduct(document);
 }

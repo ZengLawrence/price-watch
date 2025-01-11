@@ -1,6 +1,6 @@
 import { BaseProduct } from "./product";
 
-export function getBasePriceInfo(document: Document): BaseProduct | null {
+export function getBaseProduct(document: Document): BaseProduct | null {
     const corePrice: HTMLElement | null = document.querySelector('#corePrice_feature_div');
     if (corePrice) {
         const price = parsePrice(corePrice);

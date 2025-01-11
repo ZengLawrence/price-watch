@@ -8,7 +8,7 @@ interface TwisterPriceData {
     }[];
 }
 
-export function getBasePriceInfo(document: Document): BaseProduct | null {
+export function getBaseProduct(document: Document): BaseProduct | null {
     const twister = document.querySelector('#twisterPlusWWDesktop');
 
     if (twister) {
