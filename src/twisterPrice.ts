@@ -1,9 +1,5 @@
 import _ from 'lodash';
-
-interface BasePriceInfo {
-    price: number;
-    asin: string;
-}
+import { BasePriceInfo } from './product';
 
 interface TwisterPriceData {
     desktop_buybox_group_1: {
