@@ -1,4 +1,4 @@
-export interface BasePriceInfo {
+export interface BaseProduct {
     price: number;
     asin: string;
 }

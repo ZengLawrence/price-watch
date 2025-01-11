@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { BasePriceInfo } from './product';
+import { BaseProduct } from './product';
 
 interface TwisterPriceData {
     desktop_buybox_group_1: {
@@ -8,7 +8,7 @@ interface TwisterPriceData {
     }[];
 }
 
-export function getBasePriceInfo(document: Document): BasePriceInfo | null {
+export function getBasePriceInfo(document: Document): BaseProduct | null {
     const twister = document.querySelector('#twisterPlusWWDesktop');
 
     if (twister) {
