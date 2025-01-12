@@ -49,15 +49,9 @@ showBuySignal();
 
 // Shopping cart div gets populated after the page is loaded
 const targetNode = document.getElementById("nav-flyout-ewc");
-
 if (targetNode) {
     const config = { childList: true, subtree: true };
-
-    const callback: MutationCallback = (mutationList, observer) => {
-        logProductsInCart();
-    };
-
-    const observer = new MutationObserver(callback);
+    const observer = new MutationObserver(logProductsInCart);
     observer.observe(targetNode, config);
 } else {
     console.log('targetNode not found');
