@@ -1,5 +1,5 @@
 import { BuySignal } from "./buySignal";
-import { getProduct } from "./parser";
+import { getProduct, getProductsInCart } from "./parser";
 
 function createDivElement(html: string): HTMLElement {
     const dom = new DOMParser().parseFromString(html, 'text/html');
@@ -40,5 +40,25 @@ async function showBuySignal() {
     }
 }
 
+function logProductsInCart() {
+    const productsInCart = getProductsInCart(document);
+    console.log('productsInCart=' + JSON.stringify(productsInCart));
+}
+
 showBuySignal();
 
+// Shopping cart div gets populated after the page is loaded
+const targetNode = document.getElementById("nav-flyout-ewc");
+
+if (targetNode) {
+    const config = { childList: true, subtree: true };
+
+    const callback: MutationCallback = (mutationList, observer) => {
+        logProductsInCart();
+    };
+
+    const observer = new MutationObserver(callback);
+    observer.observe(targetNode, config);
+} else {
+    console.log('targetNode not found');
+}
