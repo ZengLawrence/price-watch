@@ -1,5 +1,5 @@
 import { BuySignal } from "./buySignal";
-import { getPriceInfo } from "./parser/parsePrice";
+import { getProduct } from "./parser/parsePrice";
 
 function createDivElement(html: string): HTMLElement {
     const dom = new DOMParser().parseFromString(html, 'text/html');
@@ -25,7 +25,7 @@ function showPopover(reason: string, previousPrice: number) {
 }
 
 async function showBuySignal() {
-    const priceInfo = getPriceInfo();
+    const priceInfo = getProduct();
     if (priceInfo) {
         chrome.runtime.sendMessage({ type: 'price-info-update', priceInfo }, (buySignal: BuySignal) => {
             const { shouldBuy, reason, previousPrice } = buySignal;
