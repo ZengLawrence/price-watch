@@ -26,14 +26,15 @@ function getBaseProduct(document: Document): BaseProduct | null {
     return corePriceFeature.getBaseProduct(document);
 }
 
-export function getProductsInCart(document: Document): BaseProduct[] {
+export function getProductsInCart(document: Document): Product[] {
     const cart = document.querySelector('div[data-cart-type="Retail_Cart"].ewc-active-cart--selected');
     if (cart) {
-        return _.map(cart.querySelectorAll('div[data-asin]'), (el): BaseProduct | null => {
+        return _.map(cart.querySelectorAll('div[data-asin]'), (el): Product | null => {
             const asin = el.getAttribute('data-asin');
             const price = el.getAttribute('data-price');
-            if (asin && price) {
-                return { asin, price: parseFloat(price) };
+            const description = el.querySelector('img')?.getAttribute('alt');
+            if (asin && price && description) {
+                return { asin, price: parseFloat(price), description };
             }
             return null;
         }).filter((product) => product !== null);
