@@ -1,15 +1,20 @@
 {
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "dev": "webpack --mode development --config webpack.config.js --watch"
+    "dev": "webpack --mode development --config webpack.config.js --watch",
+    "lint": "eslint ./src"
   },
   "license": "MIT",
   "devDependencies": {
+    "@eslint/js": "^9.18.0",
     "@types/chrome": "^0.0.287",
     "@types/lodash": "^4.17.14",
     "copy-webpack-plugin": "^12.0.2",
+    "eslint": "^9.18.0",
+    "globals": "^15.14.0",
     "ts-loader": "^9.5.1",
     "typescript": "^5.7.2",
+    "typescript-eslint": "^8.19.1",
     "webpack": "^5.97.1",
     "webpack-cli": "^6.0.1"
   },

@@ -19,7 +19,11 @@ export function getBaseProduct(document: Document): BaseProduct | null {
             return null;
         }
 
-        const asin = (document.getElementById('twister-plus-asin')?.getAttribute('value'))!;
+        const asin = (document.getElementById('twister-plus-asin')?.getAttribute('value'));
+        if (!asin) {
+            console.log('ASIN is null or undefined');
+            return null;
+        }
         return { price, asin };
     }
     return null;
