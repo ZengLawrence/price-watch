@@ -36,7 +36,7 @@ export function getProductsInCart(document: Document): BaseProduct[] {
                 return { asin, price: parseFloat(price) };
             }
             return null;
-        }).filter((product): product is BaseProduct => product !== null);
+        }).filter((product) => product !== null);
     }
     console.log('cart not found');
     return [];
