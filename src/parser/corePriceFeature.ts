@@ -1,4 +1,4 @@
-import { BaseProduct } from "./product";
+import { BaseProduct } from "../product";
 
 export function getBaseProduct(document: Document): BaseProduct | null {
     const corePrice: HTMLElement | null = document.querySelector('#corePrice_feature_div');

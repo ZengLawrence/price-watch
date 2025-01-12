@@ -1,8 +1,8 @@
-import { BaseProduct, Product } from "./product";
+import { BaseProduct, Product } from "../product";
 import * as twister from './twisterPrice';
 import * as addToCart from './corePriceFeature';
 
-export function getPriceInfo(): Product | null {
+export function getProduct(): Product | null {
     const baseProduct =  getBaseProduct(document);
 
     if (baseProduct) {

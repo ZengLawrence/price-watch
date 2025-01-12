@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { BaseProduct } from './product';
+import { BaseProduct } from '../product';
 
 interface TwisterPriceData {
     desktop_buybox_group_1: {
