@@ -1,6 +1,6 @@
 import { BaseProduct, Product } from "../product";
 import * as twister from './twisterPrice';
-import * as addToCart from './corePriceFeature';
+import * as corePriceFeature from './corePriceFeature';
 
 export function getProduct(): Product | null {
     const baseProduct =  getBaseProduct(document);
@@ -22,5 +22,5 @@ function getBaseProduct(document: Document): BaseProduct | null {
     if (basePriceInfo) {
         return basePriceInfo;
     }
-    return addToCart.getBaseProduct(document);
+    return corePriceFeature.getBaseProduct(document);
 }
