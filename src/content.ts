@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { BuySignal } from "./buySignal";
 import { getProduct, getProductsInCart } from "./parser";
 
@@ -51,7 +52,7 @@ showBuySignal();
 const shoppingCartNode = document.getElementById("nav-flyout-ewc");
 if (shoppingCartNode) {
     const config = { childList: true, subtree: true };
-    const observer = new MutationObserver(logProductsInCart);
+    const observer = new MutationObserver(_.debounce(logProductsInCart, 1000));
     observer.observe(shoppingCartNode, config);
 } else {
     console.log('targetNode not found');
