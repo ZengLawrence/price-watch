@@ -1,6 +1,7 @@
+import _ from 'lodash';
 import { BaseProduct, Product } from "../product";
+import * as corePriceFeature from './corePriceFeature';
 import * as twister from './twisterPrice';
-import * as addToCart from './corePriceFeature';
 
 export function getProduct(): Product | null {
     const baseProduct =  getBaseProduct(document);
@@ -22,5 +23,22 @@ function getBaseProduct(document: Document): BaseProduct | null {
     if (basePriceInfo) {
         return basePriceInfo;
     }
-    return addToCart.getBaseProduct(document);
+    return corePriceFeature.getBaseProduct(document);
 }
+
+export function getProductsInCart(document: Document): Product[] {
+    const cart = document.querySelector('div[data-cart-type="Retail_Cart"].ewc-active-cart--selected');
+    if (cart) {
+        return _.map(cart.querySelectorAll('div[data-asin]'), (el): Product | null => {
+            const asin = el.getAttribute('data-asin');
+            const price = el.getAttribute('data-price');
+            const description = el.querySelector('img')?.getAttribute('alt');
+            if (asin && price && description) {
+                return { asin, price: parseFloat(price), description };
+            }
+            return null;
+        }).filter((product) => product !== null);
+    }
+    console.log('cart not found');
+    return [];
+} 
