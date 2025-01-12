@@ -1,4 +1,4 @@
-import { BaseProduct, Product } from "./product";
+import { BaseProduct, Product } from "../product";
 import * as twister from './twisterPrice';
 import * as addToCart from './corePriceFeature';
 
