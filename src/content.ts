@@ -48,11 +48,11 @@ function logProductsInCart() {
 showBuySignal();
 
 // Shopping cart div gets populated after the page is loaded
-const targetNode = document.getElementById("nav-flyout-ewc");
-if (targetNode) {
+const shoppingCartNode = document.getElementById("nav-flyout-ewc");
+if (shoppingCartNode) {
     const config = { childList: true, subtree: true };
     const observer = new MutationObserver(logProductsInCart);
-    observer.observe(targetNode, config);
+    observer.observe(shoppingCartNode, config);
 } else {
     console.log('targetNode not found');
 }
