@@ -1,5 +1,5 @@
 import { BuySignal } from "./buySignal";
-import { getProduct } from "./parser/parsePrice";
+import { getProduct } from "./parser";
 
 function createDivElement(html: string): HTMLElement {
     const dom = new DOMParser().parseFromString(html, 'text/html');
