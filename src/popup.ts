@@ -1,3 +1,4 @@
+import { PriceRequestMessage } from "./message";
 import { ProductPrice } from "./product";
 
 function updatePriceInfo(priceInfo: ProductPrice) {
@@ -7,9 +8,10 @@ function updatePriceInfo(priceInfo: ProductPrice) {
         priceInfoEl.textContent = `Price: ${priceInfo.price}\nASIN: ${priceInfo.asin}\nDescription: ${priceInfo.description}`;
         productInfo.appendChild(priceInfoEl);
     }
-}   
+}
 
-chrome.runtime.sendMessage({ type: 'price-info-request' }, (response: {type: string; priceInfo?: ProductPrice}) => {
+const reqMsg: PriceRequestMessage = { type: 'price-request' };
+chrome.runtime.sendMessage(reqMsg, (response: {type: string; priceInfo?: ProductPrice}) => {
     if (response.type === 'price-info') {
         console.log('price-info');
         if (response.priceInfo) {
