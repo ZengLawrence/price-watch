@@ -1,4 +1,5 @@
 import { BuySignal, buySignal } from "./buySignal";
+import { Message, ProductPriceInput } from "./message";
 import { ProductPrice } from "./product";
 
 const BLANK: string = '';
@@ -55,18 +56,12 @@ async function updatePrice(message: { priceInfo?: ProductPriceInput; }, sendResp
     }
 }
 
-interface ProductPriceInput {
-    price?: number;
-    asin?: string;
-    description?: string;
-}
-
-chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: ProductPriceInput }, _sender, sendResponse) => {
-    if (message.type === 'price-info-update') {
-        console.log('price-info-update');
+chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) => {
+    if (message.type === 'price-update') {
+        console.log('price-update');
         updatePrice(message, sendResponse);
         return true; // return true to indicate that sendResponse will be called asynchronously
-    } else if (message.type === 'price-info-request') {
+    } else if (message.type === 'price-request') {
         getLatestPrice(sendResponse);
         return true; // return true to indicate that sendResponse will be called asynchronously
     }
