@@ -6,12 +6,6 @@ export interface PriceUpdateMessage {
     priceInfo: ProductPrice;
 }
 
-export interface ProductPriceInput {
-    price?: number;
-    asin?: string;
-    description?: string;
-}
-
 export interface PriceRequestMessage {
     type: 'price-request';
 }
