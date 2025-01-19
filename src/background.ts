@@ -1,5 +1,5 @@
 import { BuySignal, buySignal } from "./buySignal";
-import { Message, NoPriceInfoResponse, PriceInfoResponse, PriceUpdateMessage, ProductPriceInput } from "./message";
+import { BuySignalResponse, Message, NoPriceInfoResponse, PriceInfoResponse, PriceUpdateMessage, ProductPriceInput } from "./message";
 import { ProductPrice } from "./product";
 
 const BLANK: string = '';
@@ -29,13 +29,17 @@ async function getLatestPrice(sendResponse: (response: { type: string, priceInfo
     sendResponse(resp);
 }
 
-async function updatePrice(message: PriceUpdateMessage, sendResponse: (response: BuySignal) => void) {
+async function updatePrice(message: PriceUpdateMessage, sendResponse: (response: BuySignalResponse) => void) {
     const { priceInfo } = message;
     console.log('update price: ' + JSON.stringify(message));
     const existingPriceInfo = await getPrice(priceInfo.asin);
     saveLatestPrice(priceInfo);
     if (existingPriceInfo) {
-        sendResponse(buySignal(priceInfo, existingPriceInfo));
+        const resp: BuySignalResponse = { 
+            type: 'buy-signal', 
+            buySignal: buySignal(priceInfo, existingPriceInfo),
+        };
+        sendResponse(resp);
     }
 }
 

@@ -1,3 +1,4 @@
+import { BuySignal } from "./buySignal";
 import { ProductPrice } from "./product";
 
 export interface PriceUpdateMessage {
@@ -24,4 +25,9 @@ export interface PriceInfoResponse {
 
 export interface NoPriceInfoResponse {
     type: 'no-price-info';
+}
+
+export interface BuySignalResponse {
+    type: 'buy-signal';
+    buySignal: BuySignal;
 }

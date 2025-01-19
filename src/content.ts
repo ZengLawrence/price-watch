@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { BuySignal } from "./buySignal";
 import { getProduct, getProductsInCart } from "./parser";
-import { PriceUpdateMessage } from "./message";
+import { BuySignalResponse, PriceUpdateMessage } from "./message";
 
 function createDivElement(html: string): HTMLElement {
     const dom = new DOMParser().parseFromString(html, 'text/html');
@@ -30,7 +30,8 @@ async function showBuySignal() {
     const priceInfo = getProduct();
     if (priceInfo) {
         const message: PriceUpdateMessage = { type: 'price-update', priceInfo };
-        chrome.runtime.sendMessage(message, (buySignal: BuySignal) => {
+        chrome.runtime.sendMessage(message, (resp: BuySignalResponse) => {
+            const buySignal = resp.buySignal;
             const { shouldBuy, reason, previousPrice } = buySignal;
             if (shouldBuy) {
                 showPopover(reason, previousPrice);
