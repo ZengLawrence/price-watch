@@ -10,7 +10,7 @@ function updatePriceInfo(priceInfo: ProductPrice) {
     });
 }
 
-function validate(priceInfoInput: PriceInfoInput): ProductPrice | null {
+function validate(priceInfoInput: ProductPriceInput): ProductPrice | null {
     const { price, asin, description } = priceInfoInput;
     if (price === undefined || price === null || price <= 0) {
         console.error('Invalid price');
@@ -41,7 +41,7 @@ async function getLatestPriceInfo(sendResponse: (response: { type: string, price
     }
 }
 
-async function processPriceInfoUpdate(message: { priceInfo?: PriceInfoInput; }, sendResponse: (response: BuySignal) => void) {
+async function processPriceInfoUpdate(message: { priceInfo?: ProductPriceInput; }, sendResponse: (response: BuySignal) => void) {
     if (message.priceInfo) {
         console.log('price-info-update=' + JSON.stringify(message.priceInfo));
         const priceInfo = validate(message.priceInfo);
@@ -55,13 +55,13 @@ async function processPriceInfoUpdate(message: { priceInfo?: PriceInfoInput; }, 
     }
 }
 
-interface PriceInfoInput {
+interface ProductPriceInput {
     price?: number;
     asin?: string;
     description?: string;
 }
 
-chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: PriceInfoInput }, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: ProductPriceInput }, _sender, sendResponse) => {
     if (message.type === 'price-info-update') {
         console.log('price-info-update');
         processPriceInfoUpdate(message, sendResponse);
