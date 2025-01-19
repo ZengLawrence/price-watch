@@ -3,7 +3,7 @@ import { ProductPrice } from "./product";
 
 const BLANK: string = '';
 
-function updateProductPrice(productPrice: ProductPrice) {
+function saveProductPrice(productPrice: ProductPrice) {
     chrome.storage.local.set({
         latest: productPrice.asin,
         [productPrice.asin]: productPrice,
@@ -47,7 +47,7 @@ async function processPriceInfoUpdate(message: { priceInfo?: ProductPriceInput; 
         const priceInfo = validate(message.priceInfo);
         if (priceInfo) {
             const existingPriceInfo = await getPriceInfo(priceInfo.asin);
-            updateProductPrice(priceInfo);
+            saveProductPrice(priceInfo);
             if (existingPriceInfo) {
                 sendResponse(buySignal(priceInfo, existingPriceInfo));
             }
