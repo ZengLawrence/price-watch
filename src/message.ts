@@ -16,3 +16,12 @@ export interface PriceRequestMessage {
 }
 
 export type Message = PriceUpdateMessage | PriceRequestMessage;
+
+export interface PriceInfoResponse {
+    type: 'price-info';
+    priceInfo: ProductPrice;
+}
+
+export interface NoPriceInfoResponse {
+    type: 'no-price-info';
+}

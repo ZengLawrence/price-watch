@@ -1,4 +1,4 @@
-import { PriceRequestMessage } from "./message";
+import { NoPriceInfoResponse, PriceInfoResponse, PriceRequestMessage } from "./message";
 import { ProductPrice } from "./product";
 
 function updatePriceInfo(priceInfo: ProductPrice) {
@@ -11,12 +11,13 @@ function updatePriceInfo(priceInfo: ProductPrice) {
 }
 
 const reqMsg: PriceRequestMessage = { type: 'price-request' };
-chrome.runtime.sendMessage(reqMsg, (response: {type: string; priceInfo?: ProductPrice}) => {
+chrome.runtime.sendMessage(reqMsg, (response: PriceInfoResponse | NoPriceInfoResponse) => {
     if (response.type === 'price-info') {
-        console.log('price-info');
         if (response.priceInfo) {
-            console.log('price-info=' + JSON.stringify(response.priceInfo));
+            console.log('price info: ' + JSON.stringify(response.priceInfo));
             updatePriceInfo(response.priceInfo);
         }
+    } else {
+        console.log('No price info');
     }
 });

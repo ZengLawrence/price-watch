@@ -1,5 +1,5 @@
 import { BuySignal, buySignal } from "./buySignal";
-import { Message, PriceUpdateMessage, ProductPriceInput } from "./message";
+import { Message, NoPriceInfoResponse, PriceInfoResponse, PriceUpdateMessage, ProductPriceInput } from "./message";
 import { ProductPrice } from "./product";
 
 const BLANK: string = '';
@@ -20,10 +20,13 @@ async function getLatestPrice(sendResponse: (response: { type: string, priceInfo
     const { latest } = await chrome.storage.local.get(['latest']);
     if (latest) {
         const priceInfo = await getPrice(latest);
-        sendResponse({ type: 'price-info', priceInfo });
-    } else {
-        sendResponse({ type: 'price-info' });
+        if (priceInfo) {
+        const resp : PriceInfoResponse = { type: 'price-info', priceInfo };
+        sendResponse(resp);
+        }
     }
+    const resp: NoPriceInfoResponse = { type: 'no-price-info' };
+    sendResponse(resp);
 }
 
 async function updatePrice(message: PriceUpdateMessage, sendResponse: (response: BuySignal) => void) {
