@@ -41,7 +41,6 @@ async function updatePrice(message: PriceUpdateMessage, sendResponse: (response:
 chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) => {
     switch (message.type) {
         case 'price-update':
-            console.log('price-update');
             updatePrice(message, sendResponse);
             return true; // return true to indicate that sendResponse will be called asynchronously
         case 'price-request':
