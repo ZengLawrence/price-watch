@@ -1,5 +1,4 @@
 import _ from "lodash";
-import { BuySignal } from "./buySignal";
 import { getProduct, getProductsInCart } from "./parser";
 import { BuySignalResponse, PriceUpdateMessage } from "./message";
 
