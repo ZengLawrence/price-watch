@@ -39,12 +39,14 @@ async function updatePrice(message: PriceUpdateMessage, sendResponse: (response:
 }
 
 chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) => {
-    if (message.type === 'price-update') {
-        console.log('price-update');
-        updatePrice(message, sendResponse);
-        return true; // return true to indicate that sendResponse will be called asynchronously
-    } else if (message.type === 'price-request') {
-        getLatestPrice(sendResponse);
-        return true; // return true to indicate that sendResponse will be called asynchronously
+    switch (message.type) {
+        case 'price-update':
+            updatePrice(message, sendResponse);
+            return true; // return true to indicate that sendResponse will be called asynchronously
+        case 'price-request':
+            getLatestPrice(sendResponse);
+            return true; // return true to indicate that sendResponse will be called asynchronously
+        default:
+            return false; // return false for unhandled message types
     }
 });
