@@ -43,7 +43,7 @@ async function showBuySignal() {
     }
 }
 
-function logProductsInCart() {
+function getPricesInCartThenSave() {
     const productsInCart = getProductsInCart(document);
     console.log('productsInCart=' + JSON.stringify(productsInCart));
     const msg : MultiplePriceUpdateMessage = { 
@@ -58,7 +58,7 @@ showBuySignal();
 const shoppingCartNode = document.getElementById("nav-flyout-ewc");
 if (shoppingCartNode) {
     const config = { childList: true, subtree: true };
-    const observer = new MutationObserver(_.debounce(logProductsInCart, 1000));
+    const observer = new MutationObserver(_.debounce(getPricesInCartThenSave, 1000));
     observer.observe(shoppingCartNode, config);
 } else {
     console.log('Element "nav-flyout-ewc" not found');
