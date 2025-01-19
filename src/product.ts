@@ -3,7 +3,7 @@ export interface BaseProduct {
     asin: string;
 }
 
-export interface Product {
+export interface ProductPrice {
     price: number;
     asin: string;
     description: string;
