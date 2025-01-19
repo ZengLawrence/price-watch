@@ -71,5 +71,3 @@ chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: Produ
         return true; // return true to indicate that sendResponse will be called asynchronously
     }
 });
-
-
