@@ -41,7 +41,7 @@ async function getLatestPrice(sendResponse: (response: { type: string, priceInfo
     }
 }
 
-async function processPriceInfoUpdate(message: { priceInfo?: ProductPriceInput; }, sendResponse: (response: BuySignal) => void) {
+async function updatePrice(message: { priceInfo?: ProductPriceInput; }, sendResponse: (response: BuySignal) => void) {
     if (message.priceInfo) {
         console.log('price-info-update=' + JSON.stringify(message.priceInfo));
         const priceInfo = validate(message.priceInfo);
@@ -64,7 +64,7 @@ interface ProductPriceInput {
 chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: ProductPriceInput }, _sender, sendResponse) => {
     if (message.type === 'price-info-update') {
         console.log('price-info-update');
-        processPriceInfoUpdate(message, sendResponse);
+        updatePrice(message, sendResponse);
         return true; // return true to indicate that sendResponse will be called asynchronously
     } else if (message.type === 'price-info-request') {
         getLatestPrice(sendResponse);
