@@ -14,7 +14,7 @@ async function getPrice(asin: string): Promise<ProductPrice | undefined> {
     return result[asin];
 }
 
-async function getLatestPrice(sendResponse: (response: { type: string, priceInfo?: ProductPrice }) => void) {
+async function getLatestPrice(sendResponse: (response: PriceInfoResponse | NoPriceInfoResponse) => void) {
     const { latest } = await chrome.storage.local.get(['latest']);
     if (latest) {
         const priceInfo = await getPrice(latest);
