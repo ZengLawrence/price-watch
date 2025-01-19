@@ -31,11 +31,10 @@ async function updatePrice(message: PriceUpdateMessage, sendResponse: (response:
     const existingPriceInfo = await getPrice(priceInfo.asin);
     saveLatestPrice(priceInfo);
     if (existingPriceInfo) {
-        const resp: BuySignalResponse = {
+        sendResponse({
             type: 'buy-signal',
             buySignal: buySignal(priceInfo, existingPriceInfo),
-        };
-        sendResponse(resp);
+        });
     }
 }
 
