@@ -14,17 +14,15 @@ async function getPrice(asin: string): Promise<ProductPrice | undefined> {
     return result[asin];
 }
 
-async function getLatestPrice(sendResponse: (response: { type: string, priceInfo?: ProductPrice }) => void) {
+async function getLatestPrice(sendResponse: (response: PriceInfoResponse | NoPriceInfoResponse) => void) {
     const { latest } = await chrome.storage.local.get(['latest']);
     if (latest) {
         const priceInfo = await getPrice(latest);
         if (priceInfo) {
-        const resp : PriceInfoResponse = { type: 'price-info', priceInfo };
-        sendResponse(resp);
+            sendResponse({ type: 'price-info', priceInfo });
         }
     }
-    const resp: NoPriceInfoResponse = { type: 'no-price-info' };
-    sendResponse(resp);
+    sendResponse({ type: 'no-price-info' });
 }
 
 async function updatePrice(message: PriceUpdateMessage, sendResponse: (response: BuySignalResponse) => void) {
@@ -33,11 +31,10 @@ async function updatePrice(message: PriceUpdateMessage, sendResponse: (response:
     const existingPriceInfo = await getPrice(priceInfo.asin);
     saveLatestPrice(priceInfo);
     if (existingPriceInfo) {
-        const resp: BuySignalResponse = { 
-            type: 'buy-signal', 
+        sendResponse({
+            type: 'buy-signal',
             buySignal: buySignal(priceInfo, existingPriceInfo),
-        };
-        sendResponse(resp);
+        });
     }
 }
 
