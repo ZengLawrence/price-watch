@@ -1,8 +1,6 @@
-import { BuySignal, buySignal } from "./buySignal";
-import { BuySignalResponse, Message, NoPriceInfoResponse, PriceInfoResponse, PriceUpdateMessage, ProductPriceInput } from "./message";
+import { buySignal } from "./buySignal";
+import { BuySignalResponse, Message, NoPriceInfoResponse, PriceInfoResponse, PriceUpdateMessage } from "./message";
 import { ProductPrice } from "./product";
-
-const BLANK: string = '';
 
 function saveLatestPrice(productPrice: ProductPrice) {
     chrome.storage.local.set({
