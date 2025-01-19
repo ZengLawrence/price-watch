@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { getProduct, getProductsInCart } from "./parser";
-import { BuySignalResponse, PriceUpdateMessage } from "./message";
+import { BuySignalResponse, MultiplePriceUpdateMessage, PriceUpdateMessage } from "./message";
 
 function createDivElement(html: string): HTMLElement {
     const dom = new DOMParser().parseFromString(html, 'text/html');
@@ -46,6 +46,10 @@ async function showBuySignal() {
 function logProductsInCart() {
     const productsInCart = getProductsInCart(document);
     console.log('productsInCart=' + JSON.stringify(productsInCart));
+    const msg : MultiplePriceUpdateMessage = { 
+        type: 'multiple-price-update', 
+        prices: productsInCart };
+    chrome.runtime.sendMessage(msg);
 }
 
 showBuySignal();

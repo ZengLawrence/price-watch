@@ -38,6 +38,15 @@ async function updatePrice(message: PriceUpdateMessage, sendResponse: (response:
     }
 }
 
+function updatePrices(prices: ProductPrice[]) {
+    const pricesMap = prices.reduce((acc, p) => {
+        acc[p.asin] = p;
+        return acc;
+    }, {} as { [key: string]: ProductPrice });
+    console.log('transformed prices: ' + JSON.stringify(pricesMap));
+    chrome.storage.local.set(pricesMap);
+}
+
 chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) => {
     switch (message.type) {
         case 'price-update':
@@ -46,6 +55,9 @@ chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) =
         case 'price-request':
             getLatestPrice(sendResponse);
             return true; // return true to indicate that sendResponse will be called asynchronously
+        case 'multiple-price-update':
+            updatePrices(message.prices);
+            return false; // return false to indicate that sendResponse will not be called
         default:
             return false; // return false for unhandled message types
     }
