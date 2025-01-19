@@ -1,7 +1,8 @@
+import { ProductPrice } from "./product";
 
-interface PriceUpdateMessage {
+export interface PriceUpdateMessage {
     type: 'price-update';
-    priceInfo: ProductPriceInput;
+    priceInfo: ProductPrice;
 }
 
 export interface ProductPriceInput {
@@ -10,7 +11,8 @@ export interface ProductPriceInput {
     description?: string;
 }
 
-interface PriceRequestMessage {
+export interface PriceRequestMessage {
     type: 'price-request';
 }
+
 export type Message = PriceUpdateMessage | PriceRequestMessage;
