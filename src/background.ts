@@ -11,22 +11,6 @@ function saveLatestPrice(productPrice: ProductPrice) {
     });
 }
 
-function validate(productPriceInput: ProductPriceInput): ProductPrice | null {
-    const { price, asin, description } = productPriceInput;
-    if (price === undefined || price === null || price <= 0) {
-        console.error('Invalid price');
-        return null;
-    }
-    if (asin === undefined || asin === null || asin.trim() === '') {
-        console.error('Invalid asin');
-        return null;
-    }
-    if (description === undefined || description === null || description.trim() === '') {
-        console.warn('Invalid description, setting to blank');
-    }
-    return { price, asin, description: description ?? BLANK };
-}
-
 async function getPrice(asin: string): Promise<ProductPrice | undefined> {
     const result = await chrome.storage.local.get([asin]);
     return result[asin];
