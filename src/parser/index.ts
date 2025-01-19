@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { BaseProduct, ProductPrice } from "../product";
+import { BaseProductPrice, ProductPrice } from "../product";
 import * as corePriceFeature from './corePriceFeature';
 import * as twister from './twisterPrice';
 
@@ -17,7 +17,7 @@ export function getProduct(): ProductPrice | null {
     return null;
 }
 
-function getBaseProduct(document: Document): BaseProduct | null {
+function getBaseProduct(document: Document): BaseProductPrice | null {
     const basePriceInfo =  twister.getBaseProduct(document);
 
     if (basePriceInfo) {
