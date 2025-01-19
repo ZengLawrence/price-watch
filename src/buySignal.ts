@@ -1,6 +1,6 @@
-import { Product } from "./product";
+import { ProductPrice } from "./product";
 
-export function buySignal(priceInfo: Product, existingPriceInfo: Product) {
+export function buySignal(priceInfo: ProductPrice, existingPriceInfo: ProductPrice) {
     const previousPrice = existingPriceInfo.price;
     if (priceInfo.price < existingPriceInfo.price) {
         return { 

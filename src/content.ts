@@ -55,5 +55,5 @@ if (shoppingCartNode) {
     const observer = new MutationObserver(_.debounce(logProductsInCart, 1000));
     observer.observe(shoppingCartNode, config);
 } else {
-    console.log('targetNode not found');
+    console.log('Element "nav-flyout-ewc" not found');
 }

@@ -1,9 +1,9 @@
 import _ from 'lodash';
-import { BaseProduct, Product } from "../product";
+import { BaseProductPrice, ProductPrice } from "../product";
 import * as corePriceFeature from './corePriceFeature';
 import * as twister from './twisterPrice';
 
-export function getProduct(): Product | null {
+export function getProduct(): ProductPrice | null {
     const baseProduct =  getBaseProduct(document);
 
     if (baseProduct) {
@@ -17,7 +17,7 @@ export function getProduct(): Product | null {
     return null;
 }
 
-function getBaseProduct(document: Document): BaseProduct | null {
+function getBaseProduct(document: Document): BaseProductPrice | null {
     const basePriceInfo =  twister.getBaseProduct(document);
 
     if (basePriceInfo) {
@@ -26,10 +26,10 @@ function getBaseProduct(document: Document): BaseProduct | null {
     return corePriceFeature.getBaseProduct(document);
 }
 
-export function getProductsInCart(document: Document): Product[] {
+export function getProductsInCart(document: Document): ProductPrice[] {
     const cart = document.querySelector('div[data-cart-type].ewc-active-cart--selected');
     if (cart) {
-        return _.map(cart.querySelectorAll('div[data-asin]'), (el): Product | null => {
+        return _.map(cart.querySelectorAll('div[data-asin]'), (el): ProductPrice | null => {
             const asin = el.getAttribute('data-asin');
             const price = el.getAttribute('data-price');
             const description = el.querySelector('img')?.getAttribute('alt');

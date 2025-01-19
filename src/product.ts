@@ -1,9 +1,9 @@
-export interface BaseProduct {
+export interface BaseProductPrice {
     price: number;
     asin: string;
 }
 
-export interface Product {
+export interface ProductPrice {
     price: number;
     asin: string;
     description: string;

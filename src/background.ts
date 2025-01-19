@@ -1,17 +1,17 @@
 import { BuySignal, buySignal } from "./buySignal";
-import { Product } from "./product";
+import { ProductPrice } from "./product";
 
 const BLANK: string = '';
 
-function updatePriceInfo(priceInfo: Product) {
+function saveProductPrice(productPrice: ProductPrice) {
     chrome.storage.local.set({
-        latest: priceInfo.asin,
-        [priceInfo.asin]: priceInfo,
+        latest: productPrice.asin,
+        [productPrice.asin]: productPrice,
     });
 }
 
-function validate(priceInfoInput: PriceInfoInput): Product | null {
-    const { price, asin, description } = priceInfoInput;
+function validate(productPriceInput: ProductPriceInput): ProductPrice | null {
+    const { price, asin, description } = productPriceInput;
     if (price === undefined || price === null || price <= 0) {
         console.error('Invalid price');
         return null;
@@ -26,12 +26,12 @@ function validate(priceInfoInput: PriceInfoInput): Product | null {
     return { price, asin, description: description ?? BLANK };
 }
 
-async function getPriceInfo(asin: string): Promise<Product | undefined> {
+async function getPriceInfo(asin: string): Promise<ProductPrice | undefined> {
     const result = await chrome.storage.local.get([asin]);
     return result[asin];
 }
 
-async function getLatestPriceInfo(sendResponse: (response: { type: string, priceInfo?: Product }) => void) {
+async function getLatestPriceInfo(sendResponse: (response: { type: string, priceInfo?: ProductPrice }) => void) {
     const { latest } = await chrome.storage.local.get(['latest']);
     if (latest) {
         const priceInfo = await getPriceInfo(latest);
@@ -41,13 +41,13 @@ async function getLatestPriceInfo(sendResponse: (response: { type: string, price
     }
 }
 
-async function processPriceInfoUpdate(message: { priceInfo?: PriceInfoInput; }, sendResponse: (response: BuySignal) => void) {
+async function processPriceInfoUpdate(message: { priceInfo?: ProductPriceInput; }, sendResponse: (response: BuySignal) => void) {
     if (message.priceInfo) {
         console.log('price-info-update=' + JSON.stringify(message.priceInfo));
         const priceInfo = validate(message.priceInfo);
         if (priceInfo) {
             const existingPriceInfo = await getPriceInfo(priceInfo.asin);
-            updatePriceInfo(priceInfo);
+            saveProductPrice(priceInfo);
             if (existingPriceInfo) {
                 sendResponse(buySignal(priceInfo, existingPriceInfo));
             }
@@ -55,13 +55,13 @@ async function processPriceInfoUpdate(message: { priceInfo?: PriceInfoInput; }, 
     }
 }
 
-interface PriceInfoInput {
+interface ProductPriceInput {
     price?: number;
     asin?: string;
     description?: string;
 }
 
-chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: PriceInfoInput }, _sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: ProductPriceInput }, _sender, sendResponse) => {
     if (message.type === 'price-info-update') {
         console.log('price-info-update');
         processPriceInfoUpdate(message, sendResponse);
@@ -71,5 +71,3 @@ chrome.runtime.onMessage.addListener((message: { type: string; priceInfo?: Price
         return true; // return true to indicate that sendResponse will be called asynchronously
     }
 });
-
-
