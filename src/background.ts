@@ -10,8 +10,8 @@ function updatePriceInfo(priceInfo: ProductPrice) {
     });
 }
 
-function validate(priceInfoInput: ProductPriceInput): ProductPrice | null {
-    const { price, asin, description } = priceInfoInput;
+function validate(productPriceInput: ProductPriceInput): ProductPrice | null {
+    const { price, asin, description } = productPriceInput;
     if (price === undefined || price === null || price <= 0) {
         console.error('Invalid price');
         return null;
