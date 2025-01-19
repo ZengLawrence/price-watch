@@ -19,12 +19,10 @@ async function getLatestPrice(sendResponse: (response: PriceInfoResponse | NoPri
     if (latest) {
         const priceInfo = await getPrice(latest);
         if (priceInfo) {
-            const resp: PriceInfoResponse = { type: 'price-info', priceInfo };
-            sendResponse(resp);
+            sendResponse({ type: 'price-info', priceInfo });
         }
     }
-    const resp: NoPriceInfoResponse = { type: 'no-price-info' };
-    sendResponse(resp);
+    sendResponse({ type: 'no-price-info' });
 }
 
 async function updatePrice(message: PriceUpdateMessage, sendResponse: (response: BuySignalResponse) => void) {
