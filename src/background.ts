@@ -19,8 +19,8 @@ async function getLatestPrice(sendResponse: (response: PriceInfoResponse | NoPri
     if (latest) {
         const priceInfo = await getPrice(latest);
         if (priceInfo) {
-        const resp : PriceInfoResponse = { type: 'price-info', priceInfo };
-        sendResponse(resp);
+            const resp: PriceInfoResponse = { type: 'price-info', priceInfo };
+            sendResponse(resp);
         }
     }
     const resp: NoPriceInfoResponse = { type: 'no-price-info' };
@@ -33,8 +33,8 @@ async function updatePrice(message: PriceUpdateMessage, sendResponse: (response:
     const existingPriceInfo = await getPrice(priceInfo.asin);
     saveLatestPrice(priceInfo);
     if (existingPriceInfo) {
-        const resp: BuySignalResponse = { 
-            type: 'buy-signal', 
+        const resp: BuySignalResponse = {
+            type: 'buy-signal',
             buySignal: buySignal(priceInfo, existingPriceInfo),
         };
         sendResponse(resp);
