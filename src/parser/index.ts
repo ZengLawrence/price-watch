@@ -27,7 +27,7 @@ function getBaseProduct(document: Document): BaseProduct | null {
 }
 
 export function getProductsInCart(document: Document): Product[] {
-    const cart = document.querySelector('div[data-cart-type="Retail_Cart"].ewc-active-cart--selected');
+    const cart = document.querySelector('div[data-cart-type].ewc-active-cart--selected');
     if (cart) {
         return _.map(cart.querySelectorAll('div[data-asin]'), (el): Product | null => {
             const asin = el.getAttribute('data-asin');
