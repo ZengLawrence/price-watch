@@ -10,7 +10,12 @@ export interface PriceRequestMessage {
     type: 'price-request';
 }
 
-export type Message = PriceUpdateMessage | PriceRequestMessage;
+export interface MultiplePriceUpdateMessage {
+    type: 'multiple-price-update';
+    prices: ProductPrice[];
+}
+
+export type Message = PriceUpdateMessage | PriceRequestMessage | MultiplePriceUpdateMessage;
 
 export interface PriceInfoResponse {
     type: 'price-info';
